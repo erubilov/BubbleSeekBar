@@ -9,6 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/**
+ * Created by eugeniy.rubilov (e.rubilov@gmail.com) on 18.03.2015.
+ */
 
 public class MainActivity extends ActionBarActivity {
     private BubbleSeekBar mSeekBar;
@@ -21,15 +24,22 @@ public class MainActivity extends ActionBarActivity {
         LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.layout_seek_progress, null);
         tv = (TextView)ll.findViewById(R.id.progress_text);
 
+        //get BubbleSeekBar
         mSeekBar = (BubbleSeekBar)findViewById(R.id.my_seek);
-        mSeekBar.setTipGravity(Gravity.CENTER);
+
+        //set bubble custom view and root activity view
         mSeekBar.setPopUpView(ll, getWindow().getDecorView());
+
+        //set tip gravity
+        mSeekBar.setBubbleGravity(Gravity.CENTER);
+
+        //add custom listener
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 if (fromUser) {
-                    tv.setText(progress + "");
+                    tv.setText(String.valueOf(progress));
                 }
             }
 
@@ -43,6 +53,8 @@ public class MainActivity extends ActionBarActivity {
                 mSeekBar.hide();
             }
         });
+
+        //PROFIT
     }
 
 

@@ -11,7 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 
 /**
- * Created by eugeniy.rubilov on 18.03.2015.
+ * Created by eugeniy.rubilov (e.rubilov@gmail.com) on 18.03.2015.
  */
 public class BubbleSeekBar extends SeekBar {
     private static final String TAG = BubbleSeekBar.class.getSimpleName();
@@ -19,7 +19,7 @@ public class BubbleSeekBar extends SeekBar {
     /**
      * popup window if seek bar changing
      */
-    private PopupWindow mTip;
+    private PopupWindow mBubble;
 
     /**
      * main container of popup window {@link PopupWindow}
@@ -56,7 +56,7 @@ public class BubbleSeekBar extends SeekBar {
      * Set popup window gravity
      * @param gravity - gravity value
      */
-    public void setTipGravity(int gravity){
+    public void setBubbleGravity(int gravity){
 
         switch (gravity){
             case Gravity.LEFT: {
@@ -86,9 +86,9 @@ public class BubbleSeekBar extends SeekBar {
      */
     public void setPopUpView(View contentView, View parentView){
         if (contentView != null && parentView != null) {
-            mTip = new PopupWindow(getContext());
-            mTip.setContentView(contentView);
-            mTip.setBackgroundDrawable(null);
+            mBubble = new PopupWindow(getContext());
+            mBubble.setContentView(contentView);
+            mBubble.setBackgroundDrawable(null);
             parent = parentView;
             setProgress(0);
         }
@@ -115,7 +115,7 @@ public class BubbleSeekBar extends SeekBar {
      */
     public void show(){
         try {
-            mTip.showAtLocation(parent, Gravity.NO_GRAVITY, 0, 0);
+            mBubble.showAtLocation(parent, Gravity.NO_GRAVITY, 0, 0);
         } catch (NullPointerException ex){
             Log.w(TAG, "PopUp window has no content view.\n Use setPopUpView(View, View) first for set content view");
         }
@@ -126,7 +126,7 @@ public class BubbleSeekBar extends SeekBar {
      */
     public void hide(){
         try{
-            mTip.dismiss();
+            mBubble.dismiss();
         } catch (NullPointerException ex) {
             Log.w(TAG, "PopUp window has no content view.\n Use setPopUpView(View, View) first for set content view");
         }
@@ -134,10 +134,10 @@ public class BubbleSeekBar extends SeekBar {
 
     @Override
     protected synchronized void onDraw(Canvas canvas) {
-        if (mTip != null && mTip.isShowing()) {
+        if (mBubble != null && mBubble.isShowing()) {
             int val = (getProgress() * (getWidth() - 2 * getThumbOffset())) / getMax();
-            mTip.update(
-                    (int) (getLeft() - userOffsetX + val + getThumbOffset() - mTip.getContentView().getWidth() * mGravityDelta),
+            mBubble.update(
+                    (int) (getLeft() - userOffsetX + val + getThumbOffset() - mBubble.getContentView().getWidth() * mGravityDelta),
                     mLocationOnScreen[1] - getHeight() - userOffsetY,
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT);
